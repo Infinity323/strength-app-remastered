@@ -1,0 +1,12 @@
+.calculator {
+  margin: 20px;
+}
+
+.calculator-body {
+  display: flex;
+}
+
+.calculator-inputs,
+.calculator-results {
+  flex: 1;
+}

@@ -1,12 +1,220 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
+const MAX_WEIGHT: number = 2000;
+const CATEGORIES: string[] = [
+  'Crippled',
+  'Noob',
+  'Beginner',
+  'Intermediate',
+  'Advanced',
+  'Elite',
+  'Freak',
+];
 
 @Component({
   selector: 'app-calculator',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButton,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatInputModule,
+    MatProgressBarModule,
+    MatSlideToggleModule,
+  ],
   templateUrl: './calculator.component.html',
-  styleUrl: './calculator.component.scss'
+  styleUrl: './calculator.component.scss',
 })
 export class CalculatorComponent {
+  MAX_WEIGHT: number = MAX_WEIGHT;
+  CATEGORIES: string[] = CATEGORIES;
 
+  // toggles
+  calculated: boolean = false;
+  splitInputs: boolean = false;
+
+  // inputs
+  units: string = 'LB';
+  squat: number = 0;
+  bench: number = 0;
+  deadlift: number = 0;
+  total: number = 0;
+  bw: number = 0;
+  sex: string = 'M';
+
+  // internal variables
+  squatDiv: number[] = [];
+  benchDiv: number[] = [];
+  deadliftDiv: number[] = [];
+  squatLevelIndex: number = 0;
+  benchLevelIndex: number = 0;
+  deadliftLevelIndex: number = 0;
+
+  // screen variables
+  dots: number = 0;
+  squatRatio: number = 0;
+  benchRatio: number = 0;
+  deadliftRatio: number = 0;
+  squatProgress: number = 0;
+  benchProgress: number = 0;
+  deadliftProgress: number = 0;
+
+  calculate() {
+    this.calculateDots();
+    this.calculateCompetency();
+    this.calculateProgress();
+    this.calculated = true;
+  }
+
+  calculateDots() {
+    let conversion = 1;
+    let coefficients: number[];
+    let tempBw: number = 0;
+    let denominator: number = 0;
+
+    if (this.splitInputs) {
+      this.total = this.squat + this.bench + this.deadlift;
+    }
+
+    if (this.units == 'LB') {
+      // LB to KG ratio
+      conversion = 0.45359237;
+    }
+
+    if (this.sex == 'M') {
+      coefficients = [
+        -307.75076, 24.0900756, -0.1918759221, 0.0007391293, -0.000001093,
+      ];
+      tempBw = conversion * Math.min(Math.max(this.bw, 40), 210);
+    } else {
+      coefficients = [
+        -57.96288, 13.6175032, -0.1126655495, 0.0005158568, -0.0000010706,
+      ];
+      tempBw = conversion * Math.min(Math.max(this.bw, 40), 150);
+    }
+
+    for (let i = 0; i < coefficients.length; i++) {
+      denominator += coefficients[i] * tempBw ** i;
+    }
+
+    this.dots = (500 / denominator) * conversion * this.total;
+  }
+
+  calculateCompetency() {
+    this.squatLevelIndex = 0;
+    this.benchLevelIndex = 0;
+    this.deadliftLevelIndex = 0;
+
+    // Different progression standards between male and female
+    if (this.sex == 'M') {
+      this.squatDiv = [
+        0,
+        45,
+        135,
+        1.25 * this.bw,
+        1.75 * this.bw,
+        2.5 * this.bw,
+        3 * this.bw,
+        this.MAX_WEIGHT,
+      ];
+      this.benchDiv = [
+        0,
+        45,
+        95,
+        this.bw,
+        1.5 * this.bw,
+        2 * this.bw,
+        2.25 * this.bw,
+        this.MAX_WEIGHT,
+      ];
+      this.deadliftDiv = [
+        0,
+        45,
+        135,
+        1.5 * this.bw,
+        2.25 * this.bw,
+        3 * this.bw,
+        3.5 * this.bw,
+        this.MAX_WEIGHT,
+      ];
+    } else {
+      this.squatDiv = [
+        0,
+        45,
+        95,
+        this.bw,
+        1.5 * this.bw,
+        1.75 * this.bw,
+        2.25 * this.bw,
+        this.MAX_WEIGHT,
+      ];
+      this.benchDiv = [
+        0,
+        0,
+        45,
+        0.5 * this.bw,
+        0.75 * this.bw,
+        this.bw,
+        1.25 * this.bw,
+        this.MAX_WEIGHT,
+      ];
+      this.deadliftDiv = [
+        0,
+        45,
+        135,
+        1.25 * this.bw,
+        1.75 * this.bw,
+        2.25 * this.bw,
+        3 * this.bw,
+        this.MAX_WEIGHT,
+      ];
+    }
+
+    while (
+      this.squatLevelIndex + 1 < this.squatDiv.length &&
+      this.squat >= this.squatDiv[this.squatLevelIndex + 1]
+    ) {
+      this.squatLevelIndex++;
+    }
+    while (
+      this.benchLevelIndex + 1 < this.benchDiv.length &&
+      this.bench >= this.benchDiv[this.benchLevelIndex + 1]
+    ) {
+      this.benchLevelIndex++;
+    }
+    while (
+      this.deadliftLevelIndex + 1 < this.deadliftDiv.length &&
+      this.deadlift >= this.deadliftDiv[this.deadliftLevelIndex + 1]
+    ) {
+      this.deadliftLevelIndex++;
+    }
+  }
+
+  calculateProgress() {
+    // Calculate bodyweight ratio
+    this.squatRatio = this.squat / this.bw;
+    this.benchRatio = this.bench / this.bw;
+    this.deadliftRatio = this.deadlift / this.bw;
+    
+    // Calculate lift progressions
+    let low: number = this.squatDiv[this.squatLevelIndex];
+    let high: number = this.squatDiv[this.squatLevelIndex + 1];
+    this.squatProgress = ((this.squat - low) / (high - low)) * 100;
+    low = this.benchDiv[this.benchLevelIndex];
+    high = this.benchDiv[this.benchLevelIndex + 1];
+    this.benchProgress = ((this.bench - low) / (high - low)) * 100;
+    low = this.deadliftDiv[this.deadliftLevelIndex];
+    high = this.deadliftDiv[this.deadliftLevelIndex + 1];
+    this.deadliftProgress = ((this.deadlift - low) / (high - low)) * 100;
+  }
 }
