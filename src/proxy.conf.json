@@ -1,0 +1,7 @@
+{
+    "/rankings/raw/fully-tested": {
+        "target": "https://www.openpowerlifting.org/api",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

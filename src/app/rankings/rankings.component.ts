@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
-import { OpenplService, Rankings } from '../openpl.service';
+import { OpenplService, Rankings } from '../service/openpl.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -49,6 +49,7 @@ export class RankingsComponent implements OnInit {
   }
 
   handleSort(sort: Sort) {
-
+    console.log(sort.active);
+    console.log(sort.direction);
   }
 }
