@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Sort } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
 
 export interface Rankings {
   total_length: number;
@@ -23,9 +23,24 @@ export class OpenplService {
   getRows() {
     let params = new HttpParams();
     params = params.append('start', 0);
-    params = params.append('end', 99);
+    params = params.append('end', 19);
     params = params.append('lang', 'en');
     params = params.append('units', 'lbs');
+
+    return this.http.get<Rankings>(FULLY_TESTED_URL, {
+      headers: headers,
+      params: params,
+    });
+  }
+
+  getUpdatedRows(units: string, e: PageEvent) {
+    let newStart = e.pageIndex * e.pageSize;
+
+    let params = new HttpParams();
+    params = params.append('start', newStart);
+    params = params.append('end', newStart + e.pageSize - 1);
+    params = params.append('lang', 'en');
+    params = params.append('units', units);
 
     return this.http.get<Rankings>(FULLY_TESTED_URL, {
       headers: headers,
