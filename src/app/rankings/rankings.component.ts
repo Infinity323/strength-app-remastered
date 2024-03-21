@@ -4,13 +4,16 @@ import { MatTableModule } from '@angular/material/table';
 import { OpenplService, Rankings } from '../service/openpl.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 
 @Component({
   selector: 'app-rankings',
@@ -20,11 +23,13 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatIconModule,
     MatMenuModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatRadioModule,
+    MatSelectModule,
     MatSortModule,
     MatTableModule,
   ],
@@ -49,7 +54,10 @@ export class RankingsComponent implements OnInit {
     'dots',
   ];
 
-  // sort: Sort;
+  sortBy: string;
+
+  sex: string = 'all';
+  weight: string = 'all';
 
   units: string = 'lbs';
 
@@ -59,52 +67,94 @@ export class RankingsComponent implements OnInit {
   pageIndex: number = 0;
   pageSizeOptions: number[] = [20, 50, 100];
 
-  constructor(private openplService: OpenplService) {}
+  constructor(
+    private openplService: OpenplService,
+    public filterDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    console.log('Begin fetching rankings.');
-    this.isLoading = true;
-    this.openplService.getRows().subscribe((resp: Rankings) => {
-      this.rows = resp.rows;
-      this.isLoading = false;
-      console.log('Finished fetching rankings.');
-    });
-
+    this.sortBy = 'dots';
+    
     this.pageEvent.length = this.length;
     this.pageEvent.pageSize = this.pageSize;
     this.pageEvent.pageIndex = this.pageIndex;
+
+    console.log('Begin fetching rankings.');
+    this.isLoading = true;
+    this.openplService
+      .getRankings(this.units, this.pageEvent, this.sex, this.weight, this.sortBy)
+      .subscribe((resp: Rankings) => {
+        this.rows = resp.rows;
+        this.isLoading = false;
+        console.log('Finished fetching rankings.');
+      });
+  }
+
+  openFilterDialog() {
+    const dialogRef = this.filterDialog.open(FilterDialogComponent, {
+      width: '500px',
+      data: { sex: this.sex, weight: this.weight },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Sex changed to: ' + result.sex);
+        console.log('Weight class changed to: ' + result.weight);
+        console.log('Begin fetching filtered rankings.');
+        this.sex = result.sex;
+        this.weight = result.weight;
+        this.isLoading = true;
+        this.openplService
+          .getRankings(this.units, this.pageEvent, this.sex, this.weight, this.sortBy)
+          .subscribe((resp: Rankings) => {
+            this.rows = resp.rows;
+            this.isLoading = false;
+            console.log('Finished fetching filtered rankings.');
+          });
+      }
+    });
   }
 
   handleSort(sort: Sort) {
-    console.log(sort.active);
-    console.log(sort.direction);
+    this.sortBy = sort.active;
+
+    console.log('Begin fetching rankings after sort.');
+    this.isLoading = true;
+    this.openplService
+      .getRankings(this.units, this.pageEvent, this.sex, this.weight, this.sortBy)
+      .subscribe((resp: Rankings) => {
+        this.rows = resp.rows;
+        this.isLoading = false;
+        console.log('Finished fetching rankings after sort.');
+      });
   }
 
   handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    this.length = e.length;
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
+
     console.log('Begin fetching next page of rankings.');
     this.isLoading = true;
     this.openplService
-      .getUpdatedRows(this.units, e)
+      .getRankings(this.units, this.pageEvent, this.sex, this.weight, this.sortBy)
       .subscribe((resp: Rankings) => {
         this.rows = resp.rows;
-        this.pageEvent = e;
-        this.length = e.length;
-        this.pageSize = e.pageSize;
-        this.pageIndex = e.pageIndex;
         this.isLoading = false;
         console.log('Finished fetching next page of rankings.');
       });
   }
 
   handleUnitChange() {
-    console.log('Begin fetching next page of rankings.');
+    console.log('Begin fetching rankings after unit change.');
     this.isLoading = true;
     this.openplService
-      .getUpdatedRows(this.units, this.pageEvent)
+      .getRankings(this.units, this.pageEvent, this.sex, this.weight, this.sortBy)
       .subscribe((resp: Rankings) => {
         this.rows = resp.rows;
         this.isLoading = false;
-        console.log('Finished fetching next page of rankings.');
+        console.log('Finished fetching rankings after unit change.');
       });
   }
 }

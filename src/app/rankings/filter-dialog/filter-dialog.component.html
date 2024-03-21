@@ -1,0 +1,52 @@
+<mat-dialog-actions align="end">
+  <button mat-icon-button mat-dialog-close class="close-button">
+    <mat-icon color="accent">close</mat-icon>
+  </button>
+</mat-dialog-actions>
+<mat-dialog-content>
+  <mat-radio-group [(ngModel)]="data.sex">
+    <mat-radio-button value="all">All</mat-radio-button>
+    <mat-radio-button value="men">Male</mat-radio-button>
+    <mat-radio-button value="women">Female</mat-radio-button>
+  </mat-radio-group>
+  <br />
+  <br />
+  <mat-form-field>
+    <mat-label>Traditional Weight Class (kg)</mat-label>
+    <mat-select [(ngModel)]="data.weight">
+      <mat-option value="all">All</mat-option>
+      <mat-option value="44">-44</mat-option>
+      <mat-option value="48">-48</mat-option>
+      <mat-option value="52">-52</mat-option>
+      <mat-option value="56">-56</mat-option>
+      <mat-option value="60">-60</mat-option>
+      <mat-option value="67.5">-67.5</mat-option>
+      <mat-option value="75">-75</mat-option>
+      <mat-option value="82.5">-82.5</mat-option>
+      <mat-option value="90">-90</mat-option>
+      <mat-option value="100">-100</mat-option>
+      <mat-option value="110">-110</mat-option>
+      <mat-option value="125">-125</mat-option>
+      <mat-option value="140">-140</mat-option>
+      <mat-option value="over140">140+</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button
+    mat-flat-button
+    [mat-dialog-close]="data"
+    (click)="resetFilters()"
+    color="warn"
+  >
+    Reset
+  </button>
+  <button
+    mat-flat-button
+    [mat-dialog-close]="data"
+    color="accent"
+    cdkFocusInitial
+  >
+    Apply
+  </button>
+</mat-dialog-actions>

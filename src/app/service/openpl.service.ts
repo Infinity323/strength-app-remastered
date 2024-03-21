@@ -20,20 +20,7 @@ const FULLY_TESTED_URL: string = '/rankings/raw/fully-tested';
 export class OpenplService {
   constructor(private http: HttpClient) {}
 
-  getRows() {
-    let params = new HttpParams();
-    params = params.append('start', 0);
-    params = params.append('end', 19);
-    params = params.append('lang', 'en');
-    params = params.append('units', 'lbs');
-
-    return this.http.get<Rankings>(FULLY_TESTED_URL, {
-      headers: headers,
-      params: params,
-    });
-  }
-
-  getUpdatedRows(units: string, e: PageEvent) {
+  getRankings(units: string, e: PageEvent, sex: string, weight: string, sortBy: string) {
     let newStart = e.pageIndex * e.pageSize;
 
     let params = new HttpParams();
@@ -42,7 +29,18 @@ export class OpenplService {
     params = params.append('lang', 'en');
     params = params.append('units', units);
 
-    return this.http.get<Rankings>(FULLY_TESTED_URL, {
+    let newUrl = FULLY_TESTED_URL;
+    if (sex != 'all') {
+      newUrl += `/${sex}`;
+    }
+    if (weight != 'all') {
+      newUrl += `/${weight}`;
+    }
+    if (sortBy != 'dots') {
+      newUrl += `/by-${sortBy}`;
+    }
+
+    return this.http.get<Rankings>(newUrl, {
       headers: headers,
       params: params,
     });

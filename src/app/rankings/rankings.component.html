@@ -1,13 +1,13 @@
 <div class="rankings">
   <div *ngIf="!isLoading">
     <div style="float: right">
-      <button mat-icon-button>
-        <mat-icon>filter_alt</mat-icon>
+      <button mat-icon-button (click)="openFilterDialog()">
+        <mat-icon color="accent">filter_alt</mat-icon>
       </button>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="unitsMenu">
+        <mat-icon color="accent">settings</mat-icon>
       </button>
-      <mat-menu #menu>
+      <mat-menu #unitsMenu>
         <div mat-menu-item>
           <mat-radio-group [(ngModel)]="units" (change)="handleUnitChange()">
             <mat-radio-button value="lbs">Pounds (LB)</mat-radio-button>
@@ -30,7 +30,11 @@
       </ng-container>
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let lifter">{{ lifter[2] }}</td>
+        <td mat-cell *matCellDef="let lifter">
+          <a href="{{'https://www.openpowerlifting.org/u/' + lifter[3] }}">
+            {{ lifter[2] }}
+          </a>
+        </td>
       </ng-container>
       <ng-container matColumnDef="location">
         <th mat-header-cell *matHeaderCellDef>Location</th>
@@ -54,23 +58,45 @@
       </ng-container>
       <ng-container matColumnDef="squat">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Squat</th>
-        <td mat-cell *matCellDef="let lifter">{{ lifter[19] }}</td>
+        <td
+          mat-cell
+          *matCellDef="let lifter"
+          [ngStyle]="{ color: 'var(--color-accent)' }"
+        >
+          {{ lifter[19] }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="bench">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Bench</th>
-        <td mat-cell *matCellDef="let lifter">{{ lifter[20] }}</td>
+        <td
+          mat-cell
+          *matCellDef="let lifter"
+          [ngStyle]="{ color: 'var(--color-warn)' }"
+        >
+          {{ lifter[20] }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="deadlift">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Deadlift</th>
-        <td mat-cell *matCellDef="let lifter">{{ lifter[21] }}</td>
+        <td
+          mat-cell
+          *matCellDef="let lifter"
+          [ngStyle]="{ color: 'var(--color-success)' }"
+        >
+          {{ lifter[21] }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
-        <td mat-cell *matCellDef="let lifter">{{ lifter[22] }}</td>
+        <td mat-cell *matCellDef="let lifter">
+          {{ lifter[22] }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="dots">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Dots</th>
-        <td mat-cell *matCellDef="let lifter">{{ lifter[23] }}</td>
+        <td mat-cell *matCellDef="let lifter">
+          {{ lifter[23] }}
+        </td>
       </ng-container>
       <tr
         mat-header-row

@@ -3,10 +3,14 @@
 }
 
 .rankings-header {
-  background-color: pink;
+  background-color: var(--color-primary);
   height: 30px;
 }
 
 .table-row {
   height: 30px;
+}
+
+a {
+  color: white;
 }
