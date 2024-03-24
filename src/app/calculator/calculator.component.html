@@ -1,5 +1,5 @@
 <div class="calculator">
-  <h1 class="mat-h1">DOTS Calculator</h1>
+  <h1 class="mat-h1">Dots Calculator</h1>
   <div class="calculator-body">
     <div class="calculator-inputs">
       <mat-button-toggle-group value="LB" [(ngModel)]="units">
@@ -73,42 +73,70 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title>Results</mat-card-title>
+          <span class="toolbar-spacer"></span>
+          <button mat-icon-button>
+            <mat-icon>more_vert</mat-icon>
+          </button>
         </mat-card-header>
         <mat-card-content>
-          <h3 class="mat-h3">DOTS: {{ dots.toFixed(2) }}</h3>
-          <mat-card *ngIf="splitInputs">
-            <mat-card-header>
-              <mat-card-subtitle>Jeff Nippard Progression</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <h3 class="mat-h3">
-                Squat Level: {{ CATEGORIES[squatLevelIndex] }} ({{ squatRatio.toFixed(2)}}x)
-              </h3>
-              <h4 class="mat-h4">{{ squatProgress.toFixed(2) }}% progression</h4>
-              <mat-progress-bar
-                color="accent"
-                [value]="squatProgress"
-              ></mat-progress-bar>
-              <br />
-              <h3 class="mat-h3">
-                Bench Level: {{ CATEGORIES[benchLevelIndex] }} ({{ benchRatio.toFixed(2)}}x)
-              </h3>
-              <h4 class="mat-h4">{{ benchProgress.toFixed(2) }}% progression</h4>
-              <mat-progress-bar
-                color="accent"
-                [value]="benchProgress"
-              ></mat-progress-bar>
-              <br />
-              <h3 class="mat-h3">
-                Deadlift Level: {{ CATEGORIES[deadliftLevelIndex] }} ({{ deadliftRatio.toFixed(2)}}x)
-              </h3>
-              <h4 class="mat-h4">{{ deadliftProgress.toFixed(2) }}% progression</h4>
-              <mat-progress-bar
-                color="accent"
-                [value]="deadliftProgress"
-              ></mat-progress-bar>
-            </mat-card-content>
-          </mat-card>
+          <h3 class="mat-h3">Dots: {{ dots.toFixed(2) }}</h3>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+      <br />
+      <mat-card *ngIf="splitInputs">
+        <mat-card-header>
+          <mat-card-title style="width: 100%">
+            Jeff Nippard Strength Level Progression
+          </mat-card-title>
+          <span class="toolbar-spacer"></span>
+          <button mat-icon-button>
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-card-subtitle>Squat</mat-card-subtitle>
+          <mat-label>
+            {{ CATEGORIES[squatLevelIndex] }} ({{ squatRatio.toFixed(2) }}x
+            bodyweight)
+          </mat-label>
+          <mat-progress-bar
+            color="accent"
+            [value]="squatProgress"
+          ></mat-progress-bar>
+          <mat-label>{{ squatProgress.toFixed(2) }}% progression</mat-label>
+          <br />
+          <br />
+          <mat-divider />
+          <br />
+          <mat-card-subtitle>Bench</mat-card-subtitle>
+          <mat-label>
+            {{ CATEGORIES[benchLevelIndex] }} ({{ benchRatio.toFixed(2) }}x
+            bodyweight)
+          </mat-label>
+          <mat-progress-bar
+            color="accent"
+            [value]="benchProgress"
+          ></mat-progress-bar>
+          <mat-label>{{ benchProgress.toFixed(2) }}% progression</mat-label>
+          <br />
+          <br />
+          <mat-divider />
+          <br />
+          <mat-card-subtitle>Deadlift</mat-card-subtitle>
+          <mat-label>
+            {{ CATEGORIES[deadliftLevelIndex] }} ({{
+              deadliftRatio.toFixed(2)
+            }}x bodyweight)
+          </mat-label>
+          <mat-progress-bar
+            color="accent"
+            [value]="deadliftProgress"
+          ></mat-progress-bar>
+          <mat-label>{{ deadliftProgress.toFixed(2) }}% progression</mat-label>
         </mat-card-content>
         <mat-card-actions align="end">
           <button mat-button>LIKE</button>

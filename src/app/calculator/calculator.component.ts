@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -25,9 +27,11 @@ const CATEGORIES: string[] = [
   imports: [
     CommonModule,
     FormsModule,
-    MatButton,
+    MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
+    MatDividerModule,
+    MatIconModule,
     MatInputModule,
     MatProgressBarModule,
     MatSlideToggleModule,
@@ -202,10 +206,10 @@ export class CalculatorComponent {
 
   calculateProgress() {
     // Calculate bodyweight ratio
-    this.squatRatio = this.squat / this.bw;
-    this.benchRatio = this.bench / this.bw;
-    this.deadliftRatio = this.deadlift / this.bw;
-    
+    this.squatRatio = Math.round((this.squat / this.bw) * 100) / 100;
+    this.benchRatio = Math.round((this.bench / this.bw) * 100) / 100;
+    this.deadliftRatio = Math.round((this.deadlift / this.bw) * 100) / 100;
+
     // Calculate lift progressions
     let low: number = this.squatDiv[this.squatLevelIndex];
     let high: number = this.squatDiv[this.squatLevelIndex + 1];
