@@ -26,5 +26,5 @@ import { MyDashboardComponent } from './my-dashboard/my-dashboard.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'my-app';
+  title = 'strength-app-remastered';
 }
