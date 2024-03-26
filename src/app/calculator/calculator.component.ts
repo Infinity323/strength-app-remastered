@@ -109,12 +109,12 @@ export class CalculatorComponent {
       coefficients = [
         -307.75076, 24.0900756, -0.1918759221, 0.0007391293, -0.000001093,
       ];
-      tempBw = conversion * Math.min(Math.max(this.bw, 40), 210);
+      tempBw = Math.min(Math.max(conversion * this.bw, 40), 210);
     } else {
       coefficients = [
         -57.96288, 13.6175032, -0.1126655495, 0.0005158568, -0.0000010706,
       ];
-      tempBw = conversion * Math.min(Math.max(this.bw, 40), 150);
+      tempBw = Math.min(Math.max(conversion * this.bw, 40), 150);
     }
 
     for (let i = 0; i < coefficients.length; i++) {
