@@ -1,5 +1,10 @@
 <div class="calculator">
-  <h1 class="mat-h1">Dots Calculator</h1>
+  <h1 class="mat-h1">
+    Strength Level Calculator
+    <button mat-icon-button (click)="openAboutDialog()">
+      <mat-icon>help</mat-icon>
+    </button>
+  </h1>
   <div class="calculator-body">
     <div class="calculator-inputs">
       <mat-button-toggle-group value="LB" [(ngModel)]="units">
@@ -13,9 +18,9 @@
         <input matInput #bwInput type="number" min="0" [(ngModel)]="bw" />
       </mat-form-field>
       <br />
-      <mat-slide-toggle [(ngModel)]="splitInputs"
-        >Input Individual Lifts</mat-slide-toggle
-      >
+      <mat-slide-toggle [(ngModel)]="splitInputs">
+        Input Individual Lifts
+      </mat-slide-toggle>
       <br />
       <br />
       <div *ngIf="!splitInputs; else splitInputFields">
@@ -73,10 +78,6 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title>Results</mat-card-title>
-          <span class="toolbar-spacer"></span>
-          <button mat-icon-button>
-            <mat-icon>more_vert</mat-icon>
-          </button>
         </mat-card-header>
         <mat-card-content>
           <h3 class="mat-h3">Dots: {{ dots.toFixed(2) }}</h3>

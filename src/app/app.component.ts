@@ -7,6 +7,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MyDashboardComponent } from './my-dashboard/my-dashboard.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AppAboutDialogComponent } from './app-about-dialog/app-about-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +23,19 @@ import { MyDashboardComponent } from './my-dashboard/my-dashboard.component';
     MatSidenavModule,
     MatToolbarModule,
     RouterLink,
-    RouterOutlet],
+    RouterOutlet,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'strength-app-remastered';
+
+  constructor(public aboutDialog: MatDialog) {}
+
+  openAboutDialog() {
+    this.aboutDialog.open(AppAboutDialogComponent, {
+      width: '500px',
+    });
+  }
 }

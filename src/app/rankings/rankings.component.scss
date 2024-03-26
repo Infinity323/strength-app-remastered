@@ -1,5 +1,13 @@
+@use '@angular/material' as mat;
+
 .rankings {
   margin: 20px;
+}
+
+.name-search {
+  float: right;
+  @include mat.form-field-density(-1);
+  margin-bottom: -1.25em;
 }
 
 .rankings-header {

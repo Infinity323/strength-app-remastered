@@ -14,6 +14,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-rankings',
@@ -24,7 +26,9 @@ import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatMenuModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,

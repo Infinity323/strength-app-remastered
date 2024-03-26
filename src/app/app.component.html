@@ -18,7 +18,7 @@
           routerLinkActive="router-link-active"
         >
           <span matListItemIcon><mat-icon>calculate</mat-icon></span>
-          <span matListItemTitle>Dots Calculator</span>
+          <span matListItemTitle>Strength Level Calculator</span>
           <span matListItemLine></span>
         </a>
         <a
@@ -45,10 +45,11 @@
         <span class="toolbar-spacer"></span>
         <button
           mat-icon-button
-          class="favorite-icon"
-          aria-label="Like this page"
+          class="info-icon"
+          aria-label="About"
+          (click)="openAboutDialog()"
         >
-          <mat-icon>favorite</mat-icon>
+          <mat-icon>info_outline</mat-icon>
         </button>
         <button mat-icon-button aria-label="Share this page">
           <mat-icon>share</mat-icon>

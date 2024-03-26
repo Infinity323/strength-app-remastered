@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CalculatorAboutDialogComponent } from './nippard-about-dialog/calculator-about-dialog.component';
 
 const MAX_WEIGHT: number = 2000;
 const CATEGORIES: string[] = [
@@ -73,14 +75,22 @@ export class CalculatorComponent {
   benchProgress: number = 0;
   deadliftProgress: number = 0;
 
-  calculate() {
+  constructor(public aboutDialog: MatDialog) {}
+
+  openAboutDialog(): void {
+    this.aboutDialog.open(CalculatorAboutDialogComponent, {
+      width: '500px',
+    });
+  }
+
+  calculate(): void {
     this.calculateDots();
     this.calculateCompetency();
     this.calculateProgress();
     this.calculated = true;
   }
 
-  calculateDots() {
+  calculateDots(): void {
     let conversion = 1;
     let coefficients: number[];
     let tempBw: number = 0;
@@ -114,7 +124,7 @@ export class CalculatorComponent {
     this.dots = (500 / denominator) * conversion * this.total;
   }
 
-  calculateCompetency() {
+  calculateCompetency(): void {
     this.squatLevelIndex = 0;
     this.benchLevelIndex = 0;
     this.deadliftLevelIndex = 0;
@@ -204,7 +214,7 @@ export class CalculatorComponent {
     }
   }
 
-  calculateProgress() {
+  calculateProgress(): void {
     // Calculate bodyweight ratio
     this.squatRatio = Math.round((this.squat / this.bw) * 100) / 100;
     this.benchRatio = Math.round((this.bench / this.bw) * 100) / 100;
