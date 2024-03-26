@@ -1,6 +1,9 @@
 <div class="rankings">
+  <h1 class="mat-h1">
+    Lifter Rankings
+    <button mat-icon-button><mat-icon>help</mat-icon></button>
+  </h1>
   <div *ngIf="!isLoading">
-    <h1 class="mat-h1">Lifter Rankings</h1>
     <div>
       <button mat-icon-button (click)="openFilterDialog()">
         <mat-icon color="accent">filter_alt</mat-icon>

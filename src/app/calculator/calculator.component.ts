@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { CalculatorAboutDialogComponent } from './nippard-about-dialog/calculator-about-dialog.component';
+import { CalculatorAboutDialogComponent } from './calculator-about-dialog/calculator-about-dialog.component';
 
 const MAX_WEIGHT: number = 2000;
 const CATEGORIES: string[] = [
